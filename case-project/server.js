@@ -11,7 +11,6 @@ app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(express.static(__dirname));
-//app.use(bodyParser.json());
 
 const client = new Client({
   cloud: {
@@ -22,7 +21,6 @@ const client = new Client({
     password: elasticConfig.password
   }
 })
-
 
 app.get('/', (req, res) => {
     res.render('index.html')
@@ -38,10 +36,11 @@ app.post("/add", async (req, res) => {
                 severity: req.body.severity,
                 topic: req.body.topic,
                 desc: req.body.desc,
-                status: "active"
+                status: "active",
+                type: req.body.giveaway,
+                area: req.body.area
                 },
       })
-      console.log(result)
       res.render("contact.html")
   })
 
@@ -61,7 +60,6 @@ app.post("/take/:id", async (req, res) => {
         }
   
     });
-    console.log(res)
     res.redirect('back');
   });
 
