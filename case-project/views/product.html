@@ -1,146 +1,321 @@
 <!DOCTYPE html>
 <style>
+   @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+   html {
+      box-sizing: border-box;
+   }
+
+   *,
+   *:before,
+   *:after {
+      box-sizing: border-box;
+   }
 
    body {
-       padding:1.5em;
-       background: #f5f5f5
-     }
-     
-     table {
-       border: 1px #a39485 solid;
-       font-size: .9em;
-       box-shadow: 0 2px 5px rgba(0,0,0,.25);
-       width: 100%;
-       border-collapse: collapse;
-       border-radius: 5px;
-       overflow: hidden;
-     }
-     
-     th {
-       text-align: left;
-     }
-       
-     thead {
-       font-weight: bold;
-       color: #fff;
-       background: #645d73;
-     }
-       
-      td, th {
-       padding: 1em .5em;
-       vertical-align: middle;
-     }
-       
-      td {
-       border-bottom: 1px solid rgba(0,0,0,.1);
-       background: #fff;
-     }
-     
-     a {
-       color: #73685d;
-     }
-       
-      @media all and (max-width: 768px) {
-         
-       table, thead, tbody, th, td, tr {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-color: #f9fafb;
+      font-size: 70%;
+      line-height: 1.4;
+      font-family: "Inter", sans-serif;
+      color: #6b7280;
+      font-weight: 400;
+   }
+
+   .button {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background: #3cbeb1;
+      border-radius: 0.25em;
+      color: white;
+      cursor: pointer;
+      display: inline-block;
+      font-weight: 500;
+      height: 3em;
+      line-height: 3em;
+      padding: 0 1em;
+   }
+
+   .button:hover {
+      background-color: #3cbeb1;
+   }
+
+   .details-modal {
+      background: #ffffff;
+      border-radius: 0.5em;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      left: 50%;
+      max-width: 90%;
+      pointer-events: none;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 30em;
+      text-align: left;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+   }
+
+   .details-modal .details-modal-close {
+      align-items: center;
+      color: #111827;
+      display: flex;
+      height: 4.5em;
+      justify-content: center;
+      pointer-events: none;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 4.5em;
+   }
+
+   .details-modal .details-modal-close svg {
+      display: block;
+   }
+
+   .details-modal .details-modal-title {
+      color: #111827;
+      padding: 1.5em 2em;
+      pointer-events: all;
+      position: relative;
+      width: calc(100% - 4.5em);
+   }
+
+   .details-modal .details-modal-title h1 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      line-height: normal;
+   }
+
+   .details-modal .details-modal-content {
+      border-top: 1px solid #e0e0e0;
+      padding: 2em;
+      pointer-events: all;
+      overflow: auto;
+   }
+
+   .details-modal-overlay {
+      transition: opacity 0.2s ease-out;
+      pointer-events: none;
+      background: rgba(15, 23, 42, 0.8);
+      position: fixed;
+      opacity: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      top: 0;
+   }
+
+   details[open] .details-modal-overlay {
+      pointer-events: all;
+      opacity: 0.5;
+   }
+
+   details summary {
+      list-style: none;
+   }
+
+   details summary:focus {
+      outline: none;
+   }
+
+   details summary::-webkit-details-marker {
+      display: none;
+   }
+
+   code {
+      font-family: Monaco, monospace;
+      line-height: 100%;
+      background-color: #2d2d2c;
+      padding: 0.1em 0.4em;
+      letter-spacing: -0.05em;
+      word-break: normal;
+      border-radius: 7px;
+      color: white;
+      font-weight: normal;
+      font-size: 1.75rem;
+      position: relative;
+      top: -2px;
+   }
+
+   .container {
+      text-align: center;
+      max-width: 40em;
+      padding: 2em;
+   }
+
+   .container>h1 {
+      font-weight: 700;
+      font-size: 2rem;
+      line-height: normal;
+      color: #111827;
+   }
+
+   .container>p {
+      margin-top: 2em;
+      margin-bottom: 2em;
+   }
+
+   .container sup {
+      font-size: 1rem;
+      margin-left: 0.25em;
+      opacity: 0.5;
+      position: relative;
+   }
+
+   body {
+      padding: 1.5em;
+      background: #f5f5f5
+   }
+
+   table {
+      border: 1px #a39485 solid;
+      font-size: .9em;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, .25);
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 5px;
+      overflow: hidden;
+   }
+
+   th {
+      text-align: left;
+   }
+
+   thead {
+      font-weight: bold;
+      color: #fff;
+      background: #645d73;
+   }
+
+   td,
+   th {
+      padding: 1em .5em;
+      vertical-align: middle;
+   }
+
+   td {
+      border-bottom: 1px solid rgba(0, 0, 0, .1);
+      background: #fff;
+   }
+
+   a {
+      color: #73685d;
+   }
+
+   @media all and (max-width: 768px) {
+
+      table,
+      thead,
+      tbody,
+      th,
+      td,
+      tr {
          display: block;
-       }
-       
-       th {
+      }
+
+      th {
          text-align: right;
-       }
-       
-       table {
-         position: relative; 
+      }
+
+      table {
+         position: relative;
          padding-bottom: 0;
          border: none;
-         box-shadow: 0 0 10px rgba(0,0,0,.2);
-       }
-       
-       thead {
+         box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+      }
+
+      thead {
          float: left;
          white-space: nowrap;
-       }
-       
-       tbody {
+      }
+
+      tbody {
          overflow-x: auto;
          overflow-y: hidden;
          position: relative;
          white-space: nowrap;
-       }
-       
-       tr {
+      }
+
+      tr {
          display: inline-block;
          vertical-align: top;
-       }
-       
-       th {
+      }
+
+      th {
          border-bottom: 1px solid #a39485;
-       }
-       
-       td {
+      }
+
+      td {
          border-bottom: 1px solid #e5e5e5;
-       }
-       
-       
-       }
-   </style>
+      }
+
+   }
+</style>
 
 <html>
-   <head>
-      <!-- Basic -->
-      <meta charset="utf-8" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <!-- Mobile Metas -->
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-      <!-- Site Metas -->
-      <meta name="keywords" content="" />
-      <meta name="description" content="" />
-      <meta name="author" content="" />
-      <link rel="shortcut icon" href="images/favicon.png" type="">
-      <title>Root page</title>
-      <!-- bootstrap core css -->
-      <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-      <!-- font awesome style -->
-      <link href="css/font-awesome.min.css" rel="stylesheet" />
-      <!-- Custom styles for this template -->
-      <link href="css/style.css" rel="stylesheet" />
-      <!-- responsive style -->
-      <link href="css/responsive.css" rel="stylesheet" />
-      <!-- Swiftype custom fields -->
-      <meta class="swiftype" name="mytag" data-type="string" content="my custom metatag">
-      <meta class="swiftype" name="image" data-type="enum" content="https://www.elastic.co/assets/blt244a845f141977c3/elastic-logo.svg" />
 
-   </head>
-   <body>
-      <div class="hero_area">
-         <!-- header section strats -->
-         <header class="header_section">
-            <div class="container">
-               <nav class="navbar navbar-expand-lg custom_nav-container ">
-                  <a class="navbar-brand" href="index.html"><img width="250" src="images/elastic-logo.png" alt="#" /></a>
-                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<head>
+   <!-- Basic -->
+   <meta charset="utf-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <!-- Mobile Metas -->
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+   <!-- Site Metas -->
+   <meta name="keywords" content="" />
+   <meta name="description" content="" />
+   <meta name="author" content="" />
+   <link rel="shortcut icon" href="images/favicon.png" type="">
+   <title>Root page</title>
+   <!-- bootstrap core css -->
+   <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+   <!-- font awesome style -->
+   <link href="css/font-awesome.min.css" rel="stylesheet" />
+   <!-- Custom styles for this template -->
+   <link href="css/style.css" rel="stylesheet" />
+   <!-- responsive style -->
+   <link href="css/responsive.css" rel="stylesheet" />
+   <!-- Swiftype custom fields -->
+   <meta class="swiftype" name="mytag" data-type="string" content="my custom metatag">
+   <meta class="swiftype" name="image" data-type="enum"
+      content="https://www.elastic.co/assets/blt244a845f141977c3/elastic-logo.svg" />
+
+</head>
+
+<body>
+   <div class="hero_area">
+      <!-- header section strats -->
+      <header class="header_section">
+         <div class="container">
+            <nav class="navbar navbar-expand-lg custom_nav-container ">
+               <a class="navbar-brand" href="index.html"><img width="250" src="images/elastic-logo.png" alt="#" /></a>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <span class=""> </span>
-                  </button>
-                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                     <ul class="navbar-nav">
-                        <li class="nav-item active">
-                           <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                           <a class="nav-link" href="/cases">Cases</a>
-                        </li>
-                        <li class="nav-item">
-                           <a class="nav-link" href="contact.html">Share</a>
-                        </li>
-                     </ul>
-                  </div>
-               </nav>
-            </div>
-         </header>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav">
+                     <li class="nav-item active">
+                        <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="/cases">Cases</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Share</a>
+                     </li>
+                     <li class="nav-item active">
+                        <a class="nav-link" href="https://support.elastic.dev/support/engineers">Support portal</a>
+                     </li>
 
-      
-  
+                  </ul>
+               </div>
+            </nav>
+         </div>
+      </header>
 
       <!-- product section -->
       <section class="product_section layout_padding">
@@ -151,48 +326,94 @@
                </h2>
             </div>
             <div class="row">
-   <!-- table    -->
+               <!-- table    -->
+               <table>
+                  <thead>
+                     <tr>
+                        <th>Case Number</th>
+                        <th>Owner</th>
+                        <th>Title</th>
+                        <th>Severity</th>
+                        <th>Area</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Take case</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <% if(result!=null){ %>
+                        <% for (let i=0; i < result.length; i++){ %>
+                           <% if(result[i].status=="active" ){ %>
+                              <tr>
+                                 <td>
+                                    <%= result[i].case_number %>
+                                 </td>
+                                 <td>
+                                    <%= result[i].name %>
+                                 </td>
+                                 <td>
+                                    <%= result[i].topic %>
+                                 </td>
+                                 <td>
+                                    <%= result[i].severity %>
+                                 </td>
+                                 <td>
+                                    <%= result[i].area %>
+                                 </td>
+                                 <td>
+                                    <%= result[i].type %>
+                                 </td>
+                                 <td>
+                                    <%= result[i].desc %>
+                                 </td>
+                                 <td>
+                                    <form name="form1" method="POST" action="/take/<%= result[i].case_number %>">
 
+                                       <details>
+                                          <summary>
+                                             <div class="button" type="submit" value="Take">
+                                                Take
+                                             </div>
+                                             <div class="details-modal-overlay"></div>
+                                          </summary>
+                                          <div class="details-modal">
+                                             <div class="details-modal-close">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                   viewBox="0 0 14 14" fill="none">
+                                                   <path fill-rule="evenodd" clip-rule="evenodd"
+                                                      d="M13.7071 1.70711C14.0976 1.31658 14.0976 0.683417 13.7071 0.292893C13.3166 -0.0976311 12.6834 -0.0976311 12.2929 0.292893L7 5.58579L1.70711 0.292893C1.31658 -0.0976311 0.683417 -0.0976311 0.292893 0.292893C-0.0976311 0.683417 -0.0976311 1.31658 0.292893 1.70711L5.58579 7L0.292893 12.2929C-0.0976311 12.6834 -0.0976311 13.3166 0.292893 13.7071C0.683417 14.0976 1.31658 14.0976 1.70711 13.7071L7 8.41421L12.2929 13.7071C12.6834 14.0976 13.3166 14.0976 13.7071 13.7071C14.0976 13.3166 14.0976 12.6834 13.7071 12.2929L8.41421 7L13.7071 1.70711Z"
+                                                      fill="black" />
+                                                </svg>
+                                             </div>
+                                             <div class="details-modal-title">
+                                             </div>
+                                             <div class="details-modal-content">
+                                                <p>
+                                                   Use this command in Salck to assing the case to you: <br><br>
+                                                   /assign <%= result[i].case_number %> <br><br>
+                                                      <% if(result[i].type=="Swap" ){ %>
+                                                         Please set the case you want to switch with:<br><br>
+                                                         <input type="text" placeholder="Case Number" name="case_number"
+                                                            required />
+                                                         <%}%>
 
-  <table>
-    <thead>
-
-      
-    <tr>
-        <th>Case Number</th>
-        <th>Owner</th>
-        <th>Title</th>
-        <th>Severity</th>
-        <th>Description</th>
-        <th>Take case</th>
-
-    </tr>
-    </thead>
-    <tbody> 
-      <% if(result!=null){ %>
-         <% for (let i = 0; i < result.length; i++){ %>   
-            <% if(result[i].status == "active"){ %>   
-               <tr>
-                  <td><%= result[i].case_number %></td>
-                  <td><%= result[i].name %></td>
-                  <td><%= result[i].topic %></td>
-                  <td><%= result[i].severity %></td>
-                  <td style="overflow: hidden; text-overflow: ellipsis"> <%= result[i].desc %></td>
-                  <td><form name="form1" method="POST" action="/take/<%= result[i].case_number %>">
-                     <fieldset>
-                        <input type="submit" value="Take"/>
-                     </fieldset>
-                  </form></td>
-               </tr>
-               <%}%> 
-               <%}%> 
-               <%}%> 
-               <tr>
-    </tbody>
-</table>
-
-<!-- table    -->
-
+                                                            <fieldset>
+                                                               <input type="submit" value="Assign" />
+                                                            </fieldset>
+                                                </p>
+                                             </div>
+                                          </div>
+                                       </details>
+                                    </form>
+                                 </td>
+                              </tr>
+                              <%}%>
+                                 <%}%>
+                                    <%}%>
+                                       <tr>
+                  </tbody>
+               </table>
+               <!-- table    -->
             </div>
          </div>
       </section>
@@ -213,5 +434,6 @@
       <script src="js/bootstrap.js"></script>
       <!-- custom js -->
       <script src="js/custom.js"></script>
-   </body>
+</body>
+
 </html>
